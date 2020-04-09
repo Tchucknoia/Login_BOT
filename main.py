@@ -1,6 +1,7 @@
 import platform
 import os
 import sys
+import time
 
 def ler_txt(caminho):
     dados = open(caminho, 'r')
@@ -36,7 +37,6 @@ if __name__ == '__main__':
     print('To abrindo o Chrome...')
     driver = webdriver.Chrome(diretorio_WebDriver)
     driver.get('http://gambolao.net/main.php')
-
     username_textbox = driver.find_element_by_name('username')
     username_textbox.send_keys(dados.get('email'))
     password_textbox = driver.find_element_by_name('pw')
@@ -44,3 +44,10 @@ if __name__ == '__main__':
 
     login_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
     login_button.submit()
+
+    time.sleep(3)
+    driver.get('https://gambolao.net/federacao.php?nome=Cazaquistao&mural=sim')
+    time.sleep(3)
+    driver.get('https://gambolao.net/federacao.php?mural=sim&pag=2&nome=Cazaquistao')
+    time.sleep(3)
+    driver.get('https://gambolao.net/federacao.php?mural=sim&pag=3&nome=Cazaquistao')
