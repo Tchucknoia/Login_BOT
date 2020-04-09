@@ -16,6 +16,7 @@ def ler_txt(caminho):
 
 if __name__ == '__main__':
     from selenium import webdriver
+
     diretorio = os.path.dirname(os.path.realpath(__file__))
     if platform.system() == 'Linux':
         diretorio_WebDriver = diretorio + '/WebDrivers/chromedriver'
