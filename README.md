@@ -10,3 +10,5 @@ Instruções:
 0.2:\
     -Adicionado mais três outros sites.\
     -Feito uma interface amigável para os usuários.\
+0.3:\
+    -Chrome fecha sozinho no final do tour.\

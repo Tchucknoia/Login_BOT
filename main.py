@@ -31,10 +31,7 @@ if __name__ == '__main__':
     dados = ler_txt(diretorio_txt)
     print('Peguei alguns dados que estava no arquivo nome_senha.txt:')
     print(f"email:{dados.get('email')}\nsenha:{dados.get('senha')}")
-    resposta = input('Confirma eles para mim?(y/(any key)):').lower()
-    if resposta != 'y':
-        sys.exit()
-    print('To abrindo o Chrome...')
+    print('E agora to abrindo o Chrome...')
     driver = webdriver.Chrome(diretorio_WebDriver)
     driver.get('http://gambolao.net/main.php')
     username_textbox = driver.find_element_by_name('username')
@@ -51,3 +48,8 @@ if __name__ == '__main__':
     driver.get('https://gambolao.net/federacao.php?mural=sim&pag=2&nome=Cazaquistao')
     time.sleep(3)
     driver.get('https://gambolao.net/federacao.php?mural=sim&pag=3&nome=Cazaquistao')
+    time.sleep(3)
+
+    driver.close()
+    driver.quit()
+    sys.exit()
