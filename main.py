@@ -1,5 +1,6 @@
 import platform
 import os
+import sys
 
 def ler_txt(caminho):
     dados = open(caminho, 'r')
@@ -10,13 +11,13 @@ def ler_txt(caminho):
         if linha.find('nome') != -1:
             nome = linha.strip('nome:').rstrip()
         if linha.find('senha') != -1:
-            senha = linha.strip('senha:').rstrip()
+            senha = linha.strip('senha')
+            senha = senha.strip(':').rstrip()
     dados.close()
     return {'email': nome, 'senha': senha}
 
 if __name__ == '__main__':
     from selenium import webdriver
-
     diretorio = os.path.dirname(os.path.realpath(__file__))
     if platform.system() == 'Linux':
         diretorio_WebDriver = diretorio + '/WebDrivers/chromedriver'
@@ -25,7 +26,14 @@ if __name__ == '__main__':
         diretorio_WebDriver = diretorio + '\\WebDrivers\\chromedriver.exe'
         diretorio_txt = diretorio + '\\nome_senha.txt'
 
+    print('Salve, sou Jubiscreison seu BOT para logar no Gambolao.net -_-')
     dados = ler_txt(diretorio_txt)
+    print('Peguei alguns dados que estava no arquivo nome_senha.txt:')
+    print(f"email:{dados.get('email')}\nsenha:{dados.get('senha')}")
+    resposta = input('Confirma eles para mim?(y/(any key)):').lower()
+    if resposta != 'y':
+        sys.exit()
+    print('To abrindo o Chrome...')
     driver = webdriver.Chrome(diretorio_WebDriver)
     driver.get('http://gambolao.net/main.php')
 
