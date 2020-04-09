@@ -19,13 +19,13 @@ if __name__ == '__main__':
     from ler_txt import ler_txt
     dados = ler_txt('nome_senha.txt')
     driver = webdriver.Chrome(diretorio_WebDriver)
-    driver.get('http://www.facebook.com.br')
+    driver.get('http://gambolao.net/main.php')
 
-    username_textbox = driver.find_element_by_id('email')
+    username_textbox = driver.find_element_by_name('username')
     username_textbox.send_keys(dados.get('email'))
 
-    password_textbox = driver.find_element_by_id('pass')
+    password_textbox = driver.find_element_by_name('pw')
     password_textbox.send_keys(dados.get('senha'))
 
-    login_button = driver.find_element_by_id('u_0_b')
+    login_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
     login_button.submit()
