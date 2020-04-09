@@ -1,19 +1,37 @@
+import platform
+import os
+
+def ler_txt(caminho):
+    dados = open(caminho, 'r')
+    nome = ''
+    senha = ''
+    linhas = dados.readlines()
+    for linha in linhas:
+        if linha.find('nome') != -1:
+            nome = linha.strip('nome:').rstrip()
+        if linha.find('senha') != -1:
+            senha = linha.strip('senha:').rstrip()
+    dados.close()
+    return {'email': nome, 'senha': senha}
+
 if __name__ == '__main__':
     from selenium import webdriver
-    from getpass import getpass
-    #import platform
+    diretorio = os.path.dirname(os.path.realpath(__file__))
+    if platform.system() == 'Linux':
+        diretorio_WebDriver = diretorio + '/WebDrivers/chromedriver'
+        diretorio_txt = diretorio + '/nome_senha.txt'
+    elif platform.system() == 'Windows':
+        diretorio_WebDriver = diretorio + '\\WebDrivers\\chromedriver.exe'
+        diretorio_txt = diretorio + '\\nome_senha.txt'
 
-    username = input('Digite seu email:')
-    password = input('Digite sua senha:')
+    dados = ler_txt(diretorio_txt)
+    driver = webdriver.Chrome(diretorio_WebDriver)
+    driver.get('http://gambolao.net/main.php')
 
-    driver = webdriver.Chrome('/home/tchucknoia/Dev/WebDrivers/chromedriver')
-    driver.get('http://www.facebook.com.br')
+    username_textbox = driver.find_element_by_name('username')
+    username_textbox.send_keys(dados.get('email'))
+    password_textbox = driver.find_element_by_name('pw')
+    password_textbox.send_keys(dados.get('senha'))
 
-    username_textbox = driver.find_element_by_id('email')
-    username_textbox.send_keys(username)
-
-    password_textbox = driver.find_element_by_id('pass')
-    password_textbox.send_keys(password)
-
-    login_button = driver.find_element_by_id('u_0_b')
+    login_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
     login_button.submit()
