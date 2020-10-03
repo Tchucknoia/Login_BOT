@@ -8,15 +8,12 @@ def ler_txt(caminho):
     senha = ''
     links = []
     linhas = dados.readlines()
-    #print(linhas)
     for linha in linhas:
         if linha.find('nome BOT LOGIN') != -1:
             nome = linha.strip('nome BOT LOGIN:').rstrip()
-    for linha in linhas:
         if linha.find('senha BOT LOGIN') != -1:
             senha = linha.strip('senha BOT LOGIN')
             senha = senha.strip(':').rstrip()
-    for linha in linhas:
         if linha.find('links BOT LOGIN') != -1:
             aux = ''
             for letra in linha.strip('links BOT LOGIN:'):
@@ -26,10 +23,10 @@ def ler_txt(caminho):
                 aux = aux + letra
             for x in range(len(links)):
                 links[x] = links[x].strip(',').strip('[').strip(']').strip(' ')
-                if links[x].find('http://') == -1 or links[x].find('https://') == -1:
+                if links[x].find('http://') == -1 and links[x].find('https://') == -1:
                     raise ValueError('links do \'nome_senha.txt\' inadequados , sem \'http\', etc...')
-        if nome == '' or senha == '' or links == '':
-            raise ValueError("valores do nome_senha.txt vazios")
+    if nome == '' or senha == '' or links == '':
+        raise ValueError("valores do nome_senha.txt vazios")
     dados.close()
     return {'email': nome, 'senha': senha, 'links': links}
 
@@ -59,10 +56,10 @@ if __name__ == '__main__':
 
     login_button = browser.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
     login_button.submit()
-    print(range(len(dados.get('links'))))
+    time.sleep(3)
     for cont in range(len(dados.get('links'))):
-        time.sleep(3)
         browser.get(dados.get('links')[cont])
+        time.sleep(3)
 
     browser.quit()
     exit()
