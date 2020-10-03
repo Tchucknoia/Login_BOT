@@ -3,14 +3,14 @@ Um BOT que consegue logar sites.
 
 Instruções:
     O aplicativo main.exe está na pasta APLICATIVO, é só executa-lo e ser feliz.
-    Para mudar o nome ou senha é só abrir o nome_senha.txt e alterar.\
+    Para mudar o nome ou senha é só abrir o nome_senha.txt e alterar.
     
 0.1:\
     - Loga somente com chrome.\
     - Nome do arquivo .txt não pode ser alterado.\
     - Sites agora podem ser adicionados, porém deve seguir as instruções de uso.\
     - Feito uma interface amigável para os usuários.\
-    - Chrome fecha sozinho no final do tour.\
+    - Chrome fecha sozinho no final do tour.
     
 ### Instruções de uso
 -Versão do Chrome:\
