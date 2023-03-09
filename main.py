@@ -2,6 +2,9 @@ import platform
 import os
 import time
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 def ler_txt(caminho):
     dados = open(caminho, 'r')
@@ -54,14 +57,20 @@ if __name__ == '__main__':
     driver.get('http://gambolao.net/main.php')
 
     driver.get('http://gambolao.net/main.php')
-    username_textbox = driver.find_element_by_name('username')
+    from selenium.webdriver.common.by import By
+
+    username_textbox = driver.find_element(By.NAME, 'username')
     username_textbox.send_keys(dados.get('email'))
-    password_textbox = driver.find_element_by_name('pw')
+    password_textbox = driver.find_element(By.NAME, 'pw')
     password_textbox.send_keys(dados.get('senha'))
 
-    login_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
+    login_button = driver.find_element(By.XPATH, "//input[@type='submit' and @value='Entrar']")
+
+
     login_button.submit()
-    time.sleep(3)
+    username_textbox = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.NAME, 'username'))
+    )
     for cont in range(len(dados.get('links'))):
         driver.get(dados.get('links')[cont])
         time.sleep(3)
