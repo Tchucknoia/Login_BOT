@@ -2,6 +2,9 @@
 Um BOT que consegue logar sites.
 
 ### Instruções de uso
+-Instalação:\
+    - Execute o instalador.bat\
+    - Na pasta criada dist\main, terá o arquivo main junto com o nome_senha.txt que deve ser alterado conforme o seu login.\
 -Versão do Chrome:\
     - Certifique que o webdriver está na mesma versão do seu chrome\
 -nome_senha.txt:\
