@@ -7,32 +7,36 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 def ler_txt(caminho):
-    dados = open(caminho, 'r')
-    nome = ''
-    senha = ''
-    links = []
-    linhas = dados.readlines()
-    for linha in linhas:
-        if linha.find('nome BOT LOGIN') != -1:
-            nome = linha.strip('nome BOT LOGIN:').rstrip()
-        if linha.find('senha BOT LOGIN') != -1:
-            senha = linha.strip('senha BOT LOGIN')
-            senha = senha.strip(':').rstrip()
-        if linha.find('links BOT LOGIN') != -1:
-            aux = ''
-            for letra in linha.strip('links BOT LOGIN:'):
-                if letra == ',':
-                    links.append(aux)
+    try:
+        with open(caminho, 'r') as dados:
+            nome = ''
+            senha = ''
+            links = []
+            linhas = dados.readlines()
+            for linha in linhas:
+                if linha.find('nome BOT LOGIN') != -1:
+                    nome = linha.strip('nome BOT LOGIN:').rstrip()
+                if linha.find('senha BOT LOGIN') != -1:
+                    senha = linha.strip('senha BOT LOGIN')
+                    senha = senha.strip(':').rstrip()
+                if linha.find('links BOT LOGIN') != -1:
                     aux = ''
-                aux = aux + letra
-            for x in range(len(links)):
-                links[x] = links[x].strip(',').strip('[').strip(']').strip(' ')
-                if links[x].find('http://') == -1 and links[x].find('https://') == -1:
-                    raise ValueError('links do \'nome_senha.txt\' inadequados , sem \'http\', etc...')
-    if nome == '' or senha == '' or links == '':
-        raise ValueError("valores do nome_senha.txt vazios")
-    dados.close()
-    return {'email': nome, 'senha': senha, 'links': links}
+                    for letra in linha.strip('links BOT LOGIN:'):
+                        if letra == ',':
+                            links.append(aux)
+                            aux = ''
+                        aux = aux + letra
+                    for x in range(len(links)):
+                        links[x] = links[x].strip(',').strip('[').strip(']').strip(' ')
+                        if links[x].find('http://') == -1 and links[x].find('https://') == -1:
+                            raise ValueError('links do \'nome_senha.txt\' inadequados , sem \'http\', etc...')
+            if nome == '' or senha == '' or links == '':
+                raise ValueError("valores do nome_senha.txt vazios")
+            return {'email': nome, 'senha': senha, 'links': links}
+    except FileNotFoundError:
+        print(f"Arquivo {caminho} não encontrado")
+        return None
+
 
 if __name__ == '__main__':
     from selenium import webdriver
@@ -46,6 +50,10 @@ if __name__ == '__main__':
 
     
     dados = ler_txt(diretorio_txt)
+    if(dados == None) :
+        input("Dados do nome_senha.txt não encontrados junto a este executavel\nEnter para sair")
+        os._exit(1)
+    
     print('Salve, sou Jubiscreison seu BOT para logar no Gambolao.net O.O')
     print('Peguei alguns dados que estava no arquivo nome_senha.txt:')
     print(f"email:{dados.get('email')}\nlinks:{dados.get('links')}")
@@ -73,10 +81,9 @@ if __name__ == '__main__':
     )
     for cont in range(len(dados.get('links'))):
         driver.get(dados.get('links')[cont])
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 5).until(
             EC.visibility_of_element_located((By.XPATH, '//img[@src="images/logo2.png"]'))
         )
         time.sleep(3)
 
     driver.quit()
-    exit()
