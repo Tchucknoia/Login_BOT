@@ -69,10 +69,13 @@ if __name__ == '__main__':
 
     login_button.submit()
     username_textbox = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.NAME, 'username'))
+        EC.visibility_of_element_located((By.XPATH, '//img[@src="images/logo2.png"]'))
     )
     for cont in range(len(dados.get('links'))):
         driver.get(dados.get('links')[cont])
+        WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, '//img[@src="images/logo2.png"]'))
+        )
         time.sleep(3)
 
     driver.quit()
