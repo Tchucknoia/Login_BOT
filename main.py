@@ -1,6 +1,7 @@
 import platform
 import os
 import time
+from selenium.webdriver.chrome.service import Service
 
 def ler_txt(caminho):
     dados = open(caminho, 'r')
@@ -34,32 +35,36 @@ if __name__ == '__main__':
     from selenium import webdriver
     diretorio = os.path.dirname(os.path.realpath(__file__))
     if platform.system() == 'Linux':
-        diretorio_WebDriver = diretorio + '/WebDrivers/chromedriver'
-        diretorio_txt = diretorio + '/nome_senha.txt'
+        diretorio_WebDriver = os.path.join(diretorio, 'WebDrivers', 'chromedriver')
+        diretorio_txt = os.path.join(diretorio, 'nome_senha.txt')
     elif platform.system() == 'Windows':
-        diretorio_WebDriver = diretorio + '\\WebDrivers\\chromedriver.exe'
-        diretorio_txt = diretorio + '\\nome_senha.txt'
+        diretorio_WebDriver = os.path.join(diretorio, 'WebDrivers', 'chromedriver.exe')
+        diretorio_txt = os.path.join(diretorio, 'nome_senha.txt')
 
+    
     dados = ler_txt(diretorio_txt)
     print('Salve, sou Jubiscreison seu BOT para logar no Gambolao.net O.O')
     print('Peguei alguns dados que estava no arquivo nome_senha.txt:')
     print(f"email:{dados.get('email')}\nlinks:{dados.get('links')}")
     print('E agora to abrindo o Chrome...')
+    print(diretorio_WebDriver)
+    service = Service(diretorio_WebDriver)
+    driver = webdriver.Chrome(service=service)
 
-    browser = webdriver.Chrome(diretorio_WebDriver)
+    driver.get('http://gambolao.net/main.php')
 
-    browser.get('http://gambolao.net/main.php')
-    username_textbox = browser.find_element_by_name('username')
+    driver.get('http://gambolao.net/main.php')
+    username_textbox = driver.find_element_by_name('username')
     username_textbox.send_keys(dados.get('email'))
-    password_textbox = browser.find_element_by_name('pw')
+    password_textbox = driver.find_element_by_name('pw')
     password_textbox.send_keys(dados.get('senha'))
 
-    login_button = browser.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
+    login_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[2]")
     login_button.submit()
     time.sleep(3)
     for cont in range(len(dados.get('links'))):
-        browser.get(dados.get('links')[cont])
+        driver.get(dados.get('links')[cont])
         time.sleep(3)
 
-    browser.quit()
+    driver.quit()
     exit()
